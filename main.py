@@ -46,6 +46,11 @@ def main() -> None:
     out = Path("/output/entry.txt")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(ENTRY, encoding="utf-8")
+    # Read back and confirm the file on disk is exactly the validated text:
+    # a silent short write in the grader sandbox must fail loudly, not
+    # hand the judge a truncated line.
+    if out.read_text(encoding="utf-8") != ENTRY:
+        raise ValueError("entry.txt on disk differs from the validated text")
 
 
 def self_test() -> int:
